@@ -8,6 +8,19 @@ steps:
     ]
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/coverquest']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'coverquest'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/coverquest'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
 images:
   - 'gcr.io/$PROJECT_ID/coverquest'
 options:

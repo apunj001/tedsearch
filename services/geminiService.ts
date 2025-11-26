@@ -41,38 +41,7 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
 
     const modelId = 'gemini-2.5-flash';
 
-    // 1. Evaluate Input Quality
-    const evalPrompt = `
-      Analyze the following book cover description provided by a user:
-      "${query}"
-
-      Does this description provide enough visual detail (mood, colors, subjects, style) to generate a high-quality book cover image?
-      
-      Return a JSON object:
-      {
-        "sufficient": boolean,
-        "reason": "string explanation",
-        "feedback": "string suggestion for improvement if not sufficient"
-      }
-    `;
-
-    const evalResponse = await ai.models.generateContent({
-      model: modelId,
-      contents: evalPrompt,
-      config: { responseMimeType: 'application/json' }
-    });
-
-    const evalResult = JSON.parse(evalResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
-
-    if (!evalResult.sufficient) {
-      // Return the feedback as a "result" but with a flag or specific text to indicate failure
-      return {
-        text: `## Input Quality Check Failed\n\n**Reason:** ${evalResult.reason}\n\n**Feedback:** ${evalResult.feedback}\n\nPlease refine your description and try again.`,
-        groundingMetadata: null
-      };
-    }
-
-    // 2. Generate Optimized Prompts for Front and Back Covers
+    // Generate Optimized Prompts for Front and Back Covers
     const promptGenPrompt = `
       Based on this description: "${query}"
 

@@ -36,11 +36,10 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) =
           <button
             type="submit"
             disabled={!query.trim() || isLoading}
-            className={`m-2 px-6 py-2 rounded-md font-semibold text-white transition-all duration-200 ${
-              query.trim() && !isLoading
+            className={`m-2 px-6 py-2 rounded-md font-semibold text-white transition-all duration-200 ${query.trim() && !isLoading
                 ? 'bg-gray-900 hover:bg-accent shadow-md'
                 : 'bg-gray-300 cursor-not-allowed'
-            }`}
+              }`}
           >
             {isLoading ? 'Searching...' : 'Find'}
           </button>

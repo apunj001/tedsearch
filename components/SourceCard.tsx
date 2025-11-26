@@ -10,7 +10,7 @@ export const SourceCard: React.FC<SourceCardProps> = ({ chunk, index }) => {
   if (!chunk.web) return null;
 
   const { uri, title } = chunk.web;
-  
+
   // Attempt to extract domain for display
   const getDomain = (url: string) => {
     try {
@@ -21,9 +21,9 @@ export const SourceCard: React.FC<SourceCardProps> = ({ chunk, index }) => {
   };
 
   return (
-    <a 
-      href={uri} 
-      target="_blank" 
+    <a
+      href={uri}
+      target="_blank"
       rel="noopener noreferrer"
       className="flex flex-col p-4 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md hover:border-accent transition-all duration-200 group h-full"
     >

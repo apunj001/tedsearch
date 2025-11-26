@@ -10,27 +10,36 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const modelId = 'gemini-2.5-flash';
 
     const prompt = `
-      I want to find visual information about the book cover for: "${query}".
+      Subject: "${query}"
       
-      Please perform a Google Search to find various editions and cover art for this book.
+      Task: Search for and display the **Front Cover Image** and **Back Cover Image** of this book. 
       
-      Return a response that:
-      1. Describes the most iconic or popular cover art for this book vividly.
-      2. Mentions any distinct differences between US, UK, or special edition covers.
-      3. Lists the publishers associated with these covers.
-      
-      Do NOT strictly focus only on text summary; focus on visual description of the covers found in the search results.
-    `;
+      Guidance:
+      - I want to see the **Artwork** of the cover (the image of the book front).
+      - Find a direct image URL (ending in .jpg, .png, .webp, etc) for the Front Cover.
+      - Find a direct image URL for the Back Cover.
+      - If you cannot find a Back Cover, just return the Front Cover.
+      - Provide a brief description of the art style and the artist if mentioned.
 
-    // Call Gemini with Google Search grounding enabled
-    const config = {
-      tools: [{ googleSearch: {} }],
-    };
+      Output Format (Strict Markdown):
+      
+      ## Front Cover
+      ![Front Cover](INSERT_DIRECT_IMAGE_URL_HERE)
+      
+      ## Back Cover
+      ![Back Cover](INSERT_DIRECT_IMAGE_URL_HERE)
+      
+      ## Art Description
+      **Artist:** [Artist Name or Unknown]
+      [Description of the visual artwork, colors, and objects on the cover]
+    `;
 
     const response = await ai.models.generateContent({
       model: modelId,
       contents: prompt,
-      config,
+      config: {
+        tools: [{ googleSearch: {} }],
+      },
     });
 
     const candidate = response.candidates?.[0];

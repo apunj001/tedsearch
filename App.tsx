@@ -9,11 +9,13 @@ const App: React.FC = () => {
   const [status, setStatus] = useState<SearchState>(SearchState.IDLE);
   const [result, setResult] = useState<SearchResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [currentQuery, setCurrentQuery] = useState<string>("");
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
     setErrorMsg(null);
     setResult(null);
+    setCurrentQuery(query);
 
     try {
       const data = await searchBookCovers(query);
@@ -36,14 +38,14 @@ const App: React.FC = () => {
             <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">Cover<span className="text-accent">Quest</span></h1>
           </div>
           <nav className="hidden md:block">
-             <a href="#" className="text-sm text-gray-500 hover:text-accent transition-colors">About</a>
+            <a href="#" className="text-sm text-gray-500 hover:text-accent transition-colors">About</a>
           </nav>
         </div>
       </header>
 
       {/* Main Content */}
       <main className="flex-grow flex flex-col px-4 pb-12">
-        
+
         {/* Hero / Search Area */}
         <div className={`transition-all duration-500 ease-in-out flex flex-col items-center ${status === SearchState.IDLE ? 'justify-center min-h-[60vh]' : 'justify-start py-8'}`}>
           <div className="text-center mb-8 w-full max-w-2xl">
@@ -61,7 +63,7 @@ const App: React.FC = () => {
           {/* Content Rendering */}
           <div className="w-full">
             {status === SearchState.LOADING && <LoadingAnimation />}
-            
+
             {status === SearchState.ERROR && (
               <div className="max-w-2xl mx-auto mt-8 p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg text-center">
                 {errorMsg}
@@ -69,7 +71,7 @@ const App: React.FC = () => {
             )}
 
             {status === SearchState.SUCCESS && result && (
-              <ResultsView result={result} />
+              <ResultsView result={result} query={currentQuery} />
             )}
           </div>
         </div>

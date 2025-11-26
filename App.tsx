@@ -77,6 +77,19 @@ const App: React.FC = () => {
         </div>
       </main>
 
+      {/* Floating Feedback Button */}
+      <a
+        href="mailto:apunj001@gmail.com?subject=CoverQuest Feedback&body=Hi, I wanted to share some feedback about CoverQuest:%0D%0A%0D%0A"
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 font-semibold text-sm z-50"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        Feedback
+      </a>
+
       {/* Footer */}
       <footer className="py-6 text-center text-gray-400 text-sm border-t border-gray-200 bg-white">
         <p>Powered by Google Gemini & Google Search Grounding</p>

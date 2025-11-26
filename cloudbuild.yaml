@@ -10,3 +10,5 @@ steps:
     args: ['push', 'gcr.io/$PROJECT_ID/coverquest']
 images:
   - 'gcr.io/$PROJECT_ID/coverquest'
+options:
+  logging: CLOUD_LOGGING_ONLY

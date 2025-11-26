@@ -2,7 +2,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build', 
-      '--build-arg', 'GEMINI_API_KEY=$_GEMINI_API_KEY',
+      '--build-arg', 'GEMINI_API_KEY=AIzaSyAZB-S6-LKv2UHnPeBnS99jOuhSZijzIPw',
       '-t', 'gcr.io/$PROJECT_ID/coverquest', 
       '.'
     ]

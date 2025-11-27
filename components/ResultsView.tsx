@@ -112,7 +112,20 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
   const extractImage = (text: string) => {
     // Match standard markdown image: ![Alt](URL)
     const imgMatch = text.match(/!\[.*?\]\((.*?)\)/);
-    const cleanText = text.replace(/!\[.*?\]\((.*?)\)/g, '').trim();
+    let cleanText = text.replace(/!\[.*?\]\((.*?)\)/g, '').trim();
+
+    // Remove any remaining URL-encoded strings (they start with http and contain %20, %2C, etc.)
+    cleanText = cleanText.replace(/https?:\/\/[^\s]+/g, '').trim();
+
+    // Remove any lines that are mostly URL encoding artifacts
+    cleanText = cleanText.split('\n')
+      .filter(line => {
+        const urlEncodedChars = (line.match(/%[0-9A-F]{2}/gi) || []).length;
+        return urlEncodedChars < 5; // If line has less than 5 encoded chars, keep it
+      })
+      .join('\n')
+      .trim();
+
     return {
       imageUrl: imgMatch ? imgMatch[1] : null,
       text: cleanText
@@ -261,8 +274,8 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
                 handleSaveImage(data.imageUrl!, type);
               }}
               className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-sm text-xs font-semibold transition-colors border ${isSaved
-                  ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
-                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-accent hover:border-accent'
+                ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-accent hover:border-accent'
                 }`}
             >
               {isSaved ? (

@@ -91,8 +91,44 @@ const App: React.FC = () => {
       </a>
 
       {/* Footer */}
-      <footer className="py-6 text-center text-gray-400 text-sm border-t border-gray-200 bg-white">
-        <p>Powered by Google Gemini & Google Search Grounding</p>
+      <footer className="py-8 text-center border-t border-gray-200 bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-4xl mx-auto px-4 space-y-4">
+          {/* Donation Section */}
+          <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="text-2xl">₿</span>
+              <h3 className="text-lg font-semibold text-gray-800">Support CoverQuest</h3>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">
+              If you find this tool helpful, consider supporting development with Bitcoin
+            </p>
+            <div className="flex items-center justify-center gap-2">
+              <button
+                onClick={() => {
+                  const address = 'bc1q2hhps0kwuwgxnvv4kwletscjq6un4r0lvenesh';
+                  navigator.clipboard.writeText(address);
+                  alert('Bitcoin address copied to clipboard!');
+                }}
+                className="group flex items-center gap-2 px-4 py-2 bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-lg transition-all duration-200"
+              >
+                <svg className="w-5 h-5 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.548v-.002zm-6.35-4.613c.24-1.59-.974-2.45-2.64-3.03l.54-2.153-1.315-.33-.525 2.107c-.345-.087-.705-.167-1.064-.25l.526-2.127-1.32-.33-.54 2.165c-.285-.067-.565-.132-.84-.2l-1.815-.45-.35 1.407s.975.225.955.236c.535.136.63.486.615.766l-1.477 5.92c-.075.166-.24.406-.614.314.015.02-.96-.24-.96-.24l-.66 1.51 1.71.426.93.242-.54 2.19 1.32.327.54-2.17c.36.1.705.19 1.05.273l-.51 2.154 1.32.33.545-2.19c2.24.427 3.93.257 4.64-1.774.57-1.637-.03-2.58-1.217-3.196.854-.193 1.5-.76 1.68-1.93h.01zm-3.01 4.22c-.404 1.64-3.157.75-4.05.53l.72-2.9c.896.23 3.757.67 3.33 2.37zm.41-4.24c-.37 1.49-2.662.735-3.405.55l.654-2.64c.744.18 3.137.524 2.75 2.084v.006z" />
+                </svg>
+                <span className="text-sm font-mono text-gray-700 group-hover:text-orange-700">
+                  Click to copy BTC address
+                </span>
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Credits */}
+          <p className="text-gray-400 text-xs">
+            Powered by Google Gemini & Pollinations.ai
+          </p>
+        </div>
       </footer>
     </div>
   );

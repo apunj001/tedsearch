@@ -296,10 +296,6 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
             </button>
           </div>
         )}
-
-        <div className="prose prose-sm prose-stone max-w-none px-2 text-center md:text-left">
-          {renderText(data.text)}
-        </div>
       </div>
     );
   };

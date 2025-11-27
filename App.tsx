@@ -10,6 +10,7 @@ const App: React.FC = () => {
   const [result, setResult] = useState<SearchResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [currentQuery, setCurrentQuery] = useState<string>("");
+  const [showAbout, setShowAbout] = useState(false);
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
@@ -38,7 +39,7 @@ const App: React.FC = () => {
             <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">Cover<span className="text-accent">Quest</span></h1>
           </div>
           <nav className="hidden md:block">
-            <a href="#" className="text-sm text-gray-500 hover:text-accent transition-colors">About</a>
+            <button onClick={() => setShowAbout(true)} className="text-sm text-gray-500 hover:text-accent transition-colors">About</button>
           </nav>
         </div>
       </header>
@@ -130,6 +131,62 @@ const App: React.FC = () => {
           </p>
         </div>
       </footer>
+
+      {/* About Modal */}
+      {showAbout && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in p-4"
+          onClick={() => setShowAbout(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 relative animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowAbout(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="text-center mb-6">
+              <span className="text-4xl mb-3 block">📚</span>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">About CoverQuest</h2>
+            </div>
+
+            <div className="space-y-4 text-gray-600 text-sm">
+              <p>
+                CoverQuest is an AI-powered book cover generation tool that creates unique front and back cover designs based on your descriptions.
+              </p>
+
+              <div className="border-t border-gray-200 pt-4">
+                <h3 className="font-semibold text-gray-800 mb-2">Developed by</h3>
+                <p className="font-medium text-gray-700">Sanshodhana LLC</p>
+                <p className="text-xs text-gray-500 italic">An AI and Search Consultancy</p>
+              </div>
+
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-xs text-gray-500">
+                  🌴 All development done in California
+                </p>
+              </div>
+
+              <div className="border-t border-gray-200 pt-4 text-xs text-gray-400">
+                <p>Powered by Google Gemini & Pollinations.ai</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowAbout(false)}
+              className="mt-6 w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -334,35 +334,15 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
         </div>
       </div>
 
-      {/* Details & Sources Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      {/* Log details to console for server-side debugging */}
+      {console.log('Cover Generation Details:', {
+        query,
+        frontPrompt: frontData.text,
+        backPrompt: backData.text,
+        artDetails: sections.details,
+        sources: uniqueChunks
+      })}
 
-        {/* Edition Details */}
-        <div className="md:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-full">
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Details</h3>
-          <div className="text-sm text-gray-700 space-y-2">
-            {renderText(sections.details)}
-          </div>
-        </div>
-
-        {/* Sources */}
-        <div className="md:col-span-2 bg-gray-50 p-6 rounded-lg border border-gray-200">
-          <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 flex items-center justify-between">
-            <span>Web Sources</span>
-            <span className="bg-gray-200 text-gray-600 py-0.5 px-2 rounded-full text-[10px]">{uniqueChunks.length}</span>
-          </h3>
-
-          {uniqueChunks.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {uniqueChunks.map((chunk, i) => (
-                <SourceCard key={i} chunk={chunk} index={i} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-gray-500 text-sm italic">No specific web sources cited.</p>
-          )}
-        </div>
-      </div>
 
       {/* Lightbox Overlay */}
       {selectedImage && (

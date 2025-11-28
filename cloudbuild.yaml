@@ -28,6 +28,7 @@ steps:
       - 'functions'
       - 'deploy'
       - 'logGeneration'
+      - '--project=$PROJECT_ID'
       - '--runtime=nodejs20'
       - '--trigger-http'
       - '--allow-unauthenticated'

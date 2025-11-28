@@ -330,14 +330,29 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
         </div>
       </div>
 
-      {/* Log details to console for server-side debugging */}
-      {console.log('Cover Generation Details:', {
-        query,
-        frontPrompt: frontData.text,
-        backPrompt: backData.text,
-        artDetails: sections.details,
-        sources: uniqueChunks
-      })}
+      {/* Log details to server */}
+      {(() => {
+        const logData = {
+          query,
+          frontPrompt: frontData.text,
+          backPrompt: backData.text,
+          artDetails: sections.details,
+          sources: uniqueChunks
+        };
+
+        // Log to console for immediate debugging
+        console.log('Cover Generation Details:', logData);
+
+        // Send to Cloud Function for persistent logging
+        fetch('https://us-central1-tedsearch.cloudfunctions.net/logGeneration', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(logData)
+        }).catch(err => console.error('Failed to log to server:', err));
+
+        return null;
+      })()}
+
 
 
       {/* Lightbox Overlay */}

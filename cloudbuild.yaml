@@ -1,4 +1,4 @@
-# Cloud Build configuration for CoverQuest - Updated with Cloud Functions
+# Cloud Build configuration for CoverQuest - With Cloud Functions & Resource Manager API
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [

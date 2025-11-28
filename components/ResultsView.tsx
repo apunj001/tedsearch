@@ -344,7 +344,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
         console.log('Cover Generation Details:', logData);
 
         // Send to Cloud Function for persistent logging
-        fetch('https://us-central1-tedsearch.cloudfunctions.net/logGeneration', {
+        fetch('https://us-central1-ted-search-478518.cloudfunctions.net/logGeneration', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(logData)

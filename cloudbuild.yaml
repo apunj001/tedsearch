@@ -21,6 +21,18 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'functions'
+      - 'deploy'
+      - 'logGeneration'
+      - '--runtime=nodejs20'
+      - '--trigger-http'
+      - '--allow-unauthenticated'
+      - '--region=us-central1'
+      - '--source=functions/log-generation'
+      - '--entry-point=logGeneration'
 images:
   - 'gcr.io/$PROJECT_ID/coverquest'
 options:

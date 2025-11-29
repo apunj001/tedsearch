@@ -53,9 +53,6 @@ const App: React.FC = () => {
             {status === SearchState.IDLE && (
               <>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
-                <p className="text-gray-500 text-lg mb-8">
-                  Enter a title to explore editions, artwork styles, and find visual sources from around the web using Google Search.
-                </p>
               </>
             )}
             <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />

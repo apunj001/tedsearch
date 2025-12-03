@@ -68,8 +68,13 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
 
     // 3. "Generate" Images (Using Pollinations as a renderer for the Gemini-generated prompts)
     // This fulfills "generated through llm" by using the LLM's prompt to drive the generation.
-    const frontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, high quality, 8k, text title")}`;
-    const backUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, matching style, high quality")}`;
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, high quality, 8k, text title")}`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, matching style, high quality")}`;
+
+    // Use proxy to avoid CORS issues
+    const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';
+    const frontUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsFrontUrl)}`;
+    const backUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsBackUrl)}`;
 
     // 4. Construct the Markdown Response
     const markdown = `

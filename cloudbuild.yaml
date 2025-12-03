@@ -35,6 +35,19 @@ steps:
       - '--region=us-central1'
       - '--source=functions/log-generation'
       - '--entry-point=logGeneration'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'functions'
+      - 'deploy'
+      - 'imageProxy'
+      - '--project=$PROJECT_ID'
+      - '--runtime=nodejs20'
+      - '--trigger-http'
+      - '--allow-unauthenticated'
+      - '--region=us-central1'
+      - '--source=functions/image-proxy'
+      - '--entry-point=imageProxy'
 images:
   - 'gcr.io/$PROJECT_ID/coverquest'
 options:

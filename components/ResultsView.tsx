@@ -240,6 +240,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
                 <img
                   src={data.imageUrl}
                   alt={`${type} cover artwork`}
+                  crossOrigin="anonymous"
                   className="relative z-10 w-full h-full object-cover"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -381,6 +382,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
             <img
               src={selectedImage}
               alt="Full size artwork"
+              crossOrigin="anonymous"
               className="max-w-full max-h-[90vh] object-contain rounded shadow-2xl border border-gray-800"
             />
           </div>

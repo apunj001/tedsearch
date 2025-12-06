@@ -11,6 +11,7 @@ const App: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [currentQuery, setCurrentQuery] = useState<string>("");
   const [showAbout, setShowAbout] = useState(false);
+  const [showDemo, setShowDemo] = useState(false);
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
@@ -53,6 +54,16 @@ const App: React.FC = () => {
             {status === SearchState.IDLE && (
               <>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
+                <button
+                  onClick={() => setShowDemo(true)}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors mb-4"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  See Example
+                </button>
               </>
             )}
             <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
@@ -181,6 +192,87 @@ const App: React.FC = () => {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Demo Modal */}
+      {showDemo && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in p-4 overflow-y-auto"
+          onClick={() => setShowDemo(false)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-6 md:p-8 relative animate-scale-up my-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowDemo(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="text-center mb-6">
+              <span className="text-4xl mb-3 block">✨</span>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">Example Cover Generation</h2>
+              <p className="text-sm text-gray-500">See what CoverQuest can create for you</p>
+            </div>
+
+            {/* Example Input */}
+            <div className="bg-gray-50 rounded-lg p-6 mb-6">
+              <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Example Input (5 Sentences):
+              </h3>
+              <div className="space-y-2 text-sm text-gray-700">
+                <p>• A young astronaut discovers an ancient alien artifact on Mars.</p>
+                <p>• The artifact glows with mysterious blue energy against the red Martian landscape.</p>
+                <p>• In the background, Earth rises over the Martian horizon.</p>
+                <p>• The scene has a sense of wonder and cosmic mystery.</p>
+                <p>• Art style should be realistic sci-fi with dramatic lighting.</p>
+              </div>
+            </div>
+
+            {/* Example Covers */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Front Cover */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-700 text-center">Front Cover</h4>
+                <div className="aspect-[2/3] bg-gradient-to-br from-blue-900 via-purple-900 to-red-900 rounded-lg shadow-lg flex items-center justify-center text-white p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🚀</div>
+                    <p className="text-sm opacity-75">AI-Generated Cover</p>
+                    <p className="text-xs opacity-50 mt-2">Based on your description</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Back Cover */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-700 text-center">Back Cover</h4>
+                <div className="aspect-[2/3] bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 rounded-lg shadow-lg flex items-center justify-center text-white p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">🌌</div>
+                    <p className="text-sm opacity-75">AI-Generated Cover</p>
+                    <p className="text-xs opacity-50 mt-2">Matching style</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setShowDemo(false)}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-md"
+              >
+                Got it! Let's Create
+              </button>
+            </div>
           </div>
         </div>
       )}

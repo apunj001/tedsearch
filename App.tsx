@@ -203,7 +203,7 @@ const App: React.FC = () => {
           onClick={() => setShowDemo(false)}
         >
           <div
-            className="bg-white rounded-xl shadow-2xl max-w-5xl w-full p-8 md:p-10 relative animate-scale-up my-8"
+            className="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-6 md:p-8 relative animate-scale-up my-8"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -215,48 +215,48 @@ const App: React.FC = () => {
               </svg>
             </button>
 
-            <div className="text-center mb-8">
-              <span className="text-5xl mb-4 block">📖</span>
-              <h2 className="text-3xl font-bold text-gray-800 mb-3">See How It Works</h2>
-              <p className="text-gray-600">Transform your ideas into stunning book covers in seconds</p>
+            <div className="text-center mb-6">
+              <span className="text-4xl mb-3 block">📖</span>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">See How It Works</h2>
+              <p className="text-sm text-gray-600">Transform your ideas into stunning book covers</p>
             </div>
 
             {/* Example Input */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 mb-8 border-2 border-amber-200">
-              <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-lg">
-                <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 mb-6 border-2 border-amber-200">
+              <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2 text-base">
+                <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
                 Example: Describe Your Book in 5 Sentences
               </h3>
-              <div className="space-y-3 text-gray-800">
-                <div className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+              <div className="space-y-2 text-gray-800 text-sm">
+                <div className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
                   <p className="flex-1">A Supreme Court justice uncovers a conspiracy that threatens American democracy.</p>
                 </div>
-                <div className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                <div className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
                   <p className="flex-1">The cover shows the iconic Supreme Court building at night, illuminated by dramatic lightning.</p>
                 </div>
-                <div className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                <div className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
                   <p className="flex-1">Dark storm clouds gather overhead, symbolizing the political turmoil.</p>
                 </div>
-                <div className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                <div className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
                   <p className="flex-1">The mood is tense and cinematic, like a political thriller.</p>
                 </div>
-                <div className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                <div className="flex gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-accent text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
                   <p className="flex-1">Art style should be photorealistic with dramatic lighting and rich, deep colors.</p>
                 </div>
               </div>
             </div>
 
             {/* Arrow */}
-            <div className="flex justify-center mb-8">
-              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="flex justify-center mb-6">
+              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2 rounded-full text-xs font-semibold flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
                 AI Generates in Seconds

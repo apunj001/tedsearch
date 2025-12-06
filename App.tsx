@@ -271,13 +271,23 @@ const App: React.FC = () => {
                   <span className="text-2xl">📕</span>
                   Front Cover
                 </h4>
-                <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200">
-                  <img
-                    src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FSupreme%20Court%20building%20at%20night%2C%20dramatic%20lightning%20storm%2C%20dark%20clouds%2C%20cinematic%20political%20thriller%2C%20photorealistic%2C%20deep%20rich%20colors%2C%20book%20cover%20design%2C%20high%20quality%2C%208k"
-                    alt="AI Generated Front Cover"
-                    className="w-full h-full object-cover"
-                    crossOrigin="anonymous"
-                  />
+                <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative">
+                  {/* Simulated book cover design */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-between p-8 text-white">
+                    <div className="text-center flex-1 flex flex-col justify-center">
+                      <div className="mb-6">
+                        <div className="text-6xl mb-4">⚖️</div>
+                        <div className="text-4xl font-bold mb-2">THE</div>
+                        <div className="text-5xl font-bold mb-2">VERDICT</div>
+                      </div>
+                      <p className="text-sm opacity-75 italic">A Political Thriller</p>
+                    </div>
+                    <div className="text-xs opacity-50 text-center">
+                      <p>AI-Generated Example</p>
+                    </div>
+                  </div>
+                  {/* Lightning effect overlay */}
+                  <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-yellow-400/20 to-transparent"></div>
                 </div>
               </div>
 
@@ -287,13 +297,21 @@ const App: React.FC = () => {
                   <span className="text-2xl">📘</span>
                   Back Cover
                 </h4>
-                <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200">
-                  <img
-                    src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FSupreme%20Court%20interior%2C%20dramatic%20shadows%2C%20justice%20scales%2C%20dark%20atmosphere%2C%20matching%20style%2C%20photorealistic%2C%20book%20back%20cover%2C%20high%20quality"
-                    alt="AI Generated Back Cover"
-                    className="w-full h-full object-cover"
-                    crossOrigin="anonymous"
-                  />
+                <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 relative">
+                  {/* Simulated back cover design */}
+                  <div className="absolute inset-0 flex flex-col p-8 text-white">
+                    <div className="flex-1 flex items-center justify-center">
+                      <div className="text-center space-y-4">
+                        <div className="text-5xl mb-4">🏛️</div>
+                        <p className="text-sm leading-relaxed opacity-90 max-w-xs mx-auto">
+                          "A gripping tale of justice, power, and the fight to preserve democracy..."
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-xs opacity-50 text-center">
+                      <p>AI-Generated Example</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

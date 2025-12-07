@@ -95,7 +95,7 @@ const App: React.FC = () => {
               <p className="text-gray-600">See what others have created with CoverQuest</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               {/* Example Cover 1 - Sci-Fi */}
               <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
                 <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-black relative">
@@ -158,28 +158,6 @@ const App: React.FC = () => {
                     <div className="text-4xl mb-3">👻</div>
                     <div className="text-xl font-bold text-center">HAUNTED</div>
                     <div className="text-xs mt-2 opacity-75">Horror</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Example Cover 7 - Adventure */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">🗺️</div>
-                    <div className="text-xl font-bold text-center">QUEST</div>
-                    <div className="text-xs mt-2 opacity-75">Adventure</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Example Cover 8 - Biography */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-slate-600 via-gray-700 to-zinc-800 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">📖</div>
-                    <div className="text-xl font-bold text-center">LEGACY</div>
-                    <div className="text-xs mt-2 opacity-75">Biography</div>
                   </div>
                 </div>
               </div>

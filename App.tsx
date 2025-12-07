@@ -12,6 +12,7 @@ const App: React.FC = () => {
   const [currentQuery, setCurrentQuery] = useState<string>("");
   const [showAbout, setShowAbout] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
+  const [flippedCover, setFlippedCover] = useState<number | null>(null);
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
@@ -97,67 +98,141 @@ const App: React.FC = () => {
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               {/* Example Cover 1 - Sci-Fi */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-black relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">🚀</div>
-                    <div className="text-xl font-bold text-center">NEBULA</div>
-                    <div className="text-xs mt-2 opacity-75">Sci-Fi</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 1 ? null : 1)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 1 ? 'rotate-y-180' : ''}`}>
+                  {/* Front */}
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">🚀</div>
+                      <div className="text-xl font-bold text-center">NEBULA</div>
+                      <div className="text-xs mt-2 opacity-75">Sci-Fi • Click to see example</div>
+                    </div>
+                  </div>
+                  {/* Back */}
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/futuristic%20space%20station%20orbiting%20nebula%2C%20sci-fi%20book%20cover%2C%20vibrant%20purple%20and%20blue%20colors%2C%20high%20quality"
+                      alt="Sci-Fi Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Example Cover 2 - Romance */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-pink-400 via-rose-500 to-red-600 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">💕</div>
-                    <div className="text-xl font-bold text-center">HEARTS</div>
-                    <div className="text-xs mt-2 opacity-75">Romance</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 2 ? null : 2)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 2 ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-pink-400 via-rose-500 to-red-600">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">💕</div>
+                      <div className="text-xl font-bold text-center">HEARTS</div>
+                      <div className="text-xs mt-2 opacity-75">Romance • Click to see example</div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/romantic%20couple%20silhouette%20sunset%2C%20romance%20book%20cover%2C%20warm%20pink%20and%20red%20tones%2C%20dreamy%20atmosphere"
+                      alt="Romance Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Example Cover 3 - Mystery */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-gray-800 via-slate-700 to-gray-900 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">🔍</div>
-                    <div className="text-xl font-bold text-center">SHADOWS</div>
-                    <div className="text-xs mt-2 opacity-75">Mystery</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 3 ? null : 3)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 3 ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-gray-800 via-slate-700 to-gray-900">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">🔍</div>
+                      <div className="text-xl font-bold text-center">SHADOWS</div>
+                      <div className="text-xs mt-2 opacity-75">Mystery • Click to see example</div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/dark%20alley%20noir%20detective%2C%20mystery%20thriller%20book%20cover%2C%20moody%20shadows%2C%20film%20noir%20style"
+                      alt="Mystery Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Example Cover 4 - Fantasy */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">🐉</div>
-                    <div className="text-xl font-bold text-center">REALMS</div>
-                    <div className="text-xs mt-2 opacity-75">Fantasy</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 4 ? null : 4)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 4 ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">🐉</div>
+                      <div className="text-xl font-bold text-center">REALMS</div>
+                      <div className="text-xs mt-2 opacity-75">Fantasy • Click to see example</div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/epic%20dragon%20flying%20over%20castle%2C%20fantasy%20book%20cover%2C%20magical%20emerald%20and%20teal%20colors%2C%20detailed"
+                      alt="Fantasy Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Example Cover 5 - Thriller */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-red-900 via-orange-800 to-yellow-700 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">⚡</div>
-                    <div className="text-xl font-bold text-center">PULSE</div>
-                    <div className="text-xs mt-2 opacity-75">Thriller</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 5 ? null : 5)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 5 ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-red-900 via-orange-800 to-yellow-700">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">⚡</div>
+                      <div className="text-xl font-bold text-center">PULSE</div>
+                      <div className="text-xs mt-2 opacity-75">Thriller • Click to see example</div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/intense%20action%20scene%20explosion%2C%20thriller%20book%20cover%2C%20dramatic%20red%20and%20orange%20lighting%2C%20high%20energy"
+                      alt="Thriller Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>
 
               {/* Example Cover 6 - Horror */}
-              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
-                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-black via-red-950 to-gray-900 relative">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                    <div className="text-4xl mb-3">👻</div>
-                    <div className="text-xl font-bold text-center">HAUNTED</div>
-                    <div className="text-xs mt-2 opacity-75">Horror</div>
+              <div
+                className="group cursor-pointer perspective-1000"
+                onClick={() => setFlippedCover(flippedCover === 6 ? null : 6)}
+              >
+                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 6 ? 'rotate-y-180' : ''}`}>
+                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-black via-red-950 to-gray-900">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                      <div className="text-4xl mb-3">👻</div>
+                      <div className="text-xl font-bold text-center">HAUNTED</div>
+                      <div className="text-xs mt-2 opacity-75">Horror • Click to see example</div>
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
+                    <img
+                      src="https://image.pollinations.ai/prompt/creepy%20haunted%20mansion%20at%20night%2C%20horror%20book%20cover%2C%20dark%20atmosphere%2C%20eerie%20red%20glow"
+                      alt="Horror Example"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </div>

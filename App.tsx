@@ -86,6 +86,112 @@ const App: React.FC = () => {
         </div>
       </main>
 
+      {/* Gallery Section - Only show when IDLE */}
+      {status === SearchState.IDLE && (
+        <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-800 mb-3">Explore Example Covers</h2>
+              <p className="text-gray-600">See what others have created with CoverQuest</p>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {/* Example Cover 1 - Sci-Fi */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-black relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">🚀</div>
+                    <div className="text-xl font-bold text-center">NEBULA</div>
+                    <div className="text-xs mt-2 opacity-75">Sci-Fi</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 2 - Romance */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-pink-400 via-rose-500 to-red-600 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">💕</div>
+                    <div className="text-xl font-bold text-center">HEARTS</div>
+                    <div className="text-xs mt-2 opacity-75">Romance</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 3 - Mystery */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-gray-800 via-slate-700 to-gray-900 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">🔍</div>
+                    <div className="text-xl font-bold text-center">SHADOWS</div>
+                    <div className="text-xs mt-2 opacity-75">Mystery</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 4 - Fantasy */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">🐉</div>
+                    <div className="text-xl font-bold text-center">REALMS</div>
+                    <div className="text-xs mt-2 opacity-75">Fantasy</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 5 - Thriller */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-red-900 via-orange-800 to-yellow-700 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">⚡</div>
+                    <div className="text-xl font-bold text-center">PULSE</div>
+                    <div className="text-xs mt-2 opacity-75">Thriller</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 6 - Horror */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-black via-red-950 to-gray-900 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">👻</div>
+                    <div className="text-xl font-bold text-center">HAUNTED</div>
+                    <div className="text-xs mt-2 opacity-75">Horror</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 7 - Adventure */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-amber-500 via-orange-600 to-red-700 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">🗺️</div>
+                    <div className="text-xl font-bold text-center">QUEST</div>
+                    <div className="text-xs mt-2 opacity-75">Adventure</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Example Cover 8 - Biography */}
+              <div className="group cursor-pointer transform hover:scale-105 transition-all duration-300">
+                <div className="aspect-[2/3] rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-slate-600 via-gray-700 to-zinc-800 relative">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
+                    <div className="text-4xl mb-3">📖</div>
+                    <div className="text-xl font-bold text-center">LEGACY</div>
+                    <div className="text-xs mt-2 opacity-75">Biography</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mt-10">
+              <p className="text-sm text-gray-500 italic">✨ All covers generated by AI based on simple descriptions</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Floating Feedback Button */}
       <a
         href="mailto:apunj001@gmail.com?subject=CoverQuest Feedback&body=Hi, I wanted to share some feedback about CoverQuest:%0D%0A%0D%0A"

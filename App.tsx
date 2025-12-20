@@ -114,8 +114,9 @@ const App: React.FC = () => {
                   {/* Back */}
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/futuristic%20space%20station%20orbiting%20nebula%2C%20sci-fi%20book%20cover%2C%20vibrant%20purple%20and%20blue%20colors%2C%20high%20quality"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Ffuturistic%2520space%2520station%2520orbiting%2520nebula%252C%2520sci-fi%2520book%2520cover%252C%2520vibrant%2520purple%2520and%2520blue%2520colors%252C%2520high%2520quality"
                       alt="Sci-Fi Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -137,8 +138,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/romantic%20couple%20silhouette%20sunset%2C%20romance%20book%20cover%2C%20warm%20pink%20and%20red%20tones%2C%20dreamy%20atmosphere"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fromantic%2520couple%2520silhouette%2520sunset%252C%2520romance%2520book%2520cover%252C%2520warm%2520pink%2520and%2520red%2520tones%252C%2520dreamy%2520atmosphere"
                       alt="Romance Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -160,8 +162,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/dark%20alley%20noir%20detective%2C%20mystery%20thriller%20book%20cover%2C%20moody%20shadows%2C%20film%20noir%20style"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fdark%2520alley%2520noir%2520detective%252C%2520mystery%2520thriller%2520book%2520cover%252C%2520moody%2520shadows%252C%2520film%2520noir%2520style"
                       alt="Mystery Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -183,8 +186,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/epic%20dragon%20flying%20over%20castle%2C%20fantasy%20book%20cover%2C%20magical%20emerald%20and%20teal%20colors%2C%20detailed"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fepic%2520dragon%2520flying%2520over%2520castle%252C%2520fantasy%2520book%2520cover%252C%2520magical%2520emerald%2520and%2520teal%2520colors%252C%2520detailed"
                       alt="Fantasy Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -206,8 +210,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/intense%20action%20scene%20explosion%2C%20thriller%20book%20cover%2C%20dramatic%20red%20and%20orange%20lighting%2C%20high%20energy"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fintense%2520action%2520scene%2520explosion%252C%2520thriller%2520book%2520cover%252C%2520dramatic%2520red%2520and%2520orange%2520lighting%252C%2520high%2520energy"
                       alt="Thriller Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -229,8 +234,9 @@ const App: React.FC = () => {
                   </div>
                   <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
                     <img
-                      src="https://image.pollinations.ai/prompt/creepy%20haunted%20mansion%20at%20night%2C%20horror%20book%20cover%2C%20dark%20atmosphere%2C%20eerie%20red%20glow"
+                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fcreepy%2520haunted%2520mansion%2520at%2520night%252C%2520horror%2520book%2520cover%252C%2520dark%2520atmosphere%252C%2520eerie%2520red%2520glow"
                       alt="Horror Example"
+                      crossOrigin="anonymous"
                       className="w-full h-full object-cover"
                     />
                   </div>

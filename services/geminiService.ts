@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { SearchResult } from "../types";
 
 // Initialize the Gemini API client with the production API key
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyC3RGYIsyOGgx61hfdCZ2WWB50tDXH6WIw' });
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyDjMPaB-3DnpRSIhBKJuZkvZEUwJ47ST5g' });
 
 const DAILY_LIMIT = 100;
 const STORAGE_KEY = 'coverquest_daily_usage';

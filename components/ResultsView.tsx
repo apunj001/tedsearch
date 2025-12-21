@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SearchResult } from '../types';
 import { SourceCard } from './SourceCard';
+import { useHeadingLabels } from '../utils/headingLabels';
 
 interface ResultsViewProps {
   result: SearchResult;
@@ -52,6 +53,7 @@ const BookCoverPlaceholder: React.FC<{ title: string; type: 'front' | 'back' }> 
 export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [savedUrls, setSavedUrls] = useState<string[]>([]);
+  const headingLabels = useHeadingLabels();
 
   useEffect(() => {
     // Load saved URLs on mount to update UI state
@@ -317,7 +319,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
         {/* LEFT: Front Cover Artwork */}
         <div className="flex-1 bg-[#fdfbf7] p-6 md:p-10 border-b md:border-b-0 md:border-r border-gray-300 relative">
           <h3 className="text-center font-serif font-bold text-amber-800 mb-6 uppercase tracking-widest text-sm border-b border-amber-100 pb-3 flex items-center justify-center gap-2">
-            <span>🎨</span> Front Cover Artwork
+            <span>🎨</span> {headingLabels.resultsFrontCoverTitle}
           </h3>
           {renderCoverSection(frontData, 'front')}
         </div>
@@ -325,7 +327,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
         {/* RIGHT: Back Cover */}
         <div className="flex-1 bg-[#f5f5f4] p-6 md:p-10 relative">
           <h3 className="text-center font-serif font-bold text-gray-600 mb-6 uppercase tracking-widest text-sm border-b border-gray-200 pb-3">
-            Back Cover Artwork
+            {headingLabels.resultsBackCoverTitle}
           </h3>
           {renderCoverSection(backData, 'back')}
         </div>

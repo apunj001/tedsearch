@@ -57,7 +57,7 @@ const App: React.FC = () => {
                 <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
                 <button
                   onClick={() => setShowDemo(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors mb-4"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-indigo-700 transition-colors mb-4"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -387,7 +387,7 @@ const App: React.FC = () => {
             </div>
 
             {/* Example Input */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 mb-6 border-2 border-amber-200">
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-xl p-5 mb-6 border-2 border-indigo-200">
               <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2 text-base">
                 <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />

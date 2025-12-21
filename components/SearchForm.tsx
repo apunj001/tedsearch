@@ -26,7 +26,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) =
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-3xl mx-auto relative">
+    <form onSubmit={handleSubmit} className="w-full relative">
       {/* Instruction Banner */}
       <div className="mb-6 p-5 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-xl shadow-sm">
         <div className="flex items-start gap-4">

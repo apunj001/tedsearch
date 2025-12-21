@@ -18,6 +18,16 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) =
   const filledCount = sentences.filter(s => s.trim().length > 10).length;
   const isValid = filledCount === 5;
 
+  const fillExample = () => {
+    setSentences([
+      'A young astronaut discovers an ancient alien artifact on Mars',
+      'The artifact glows with mysterious blue energy against the red Martian landscape',
+      'In the background, Earth rises over the Martian horizon',
+      'The scene has a sense of wonder and cosmic mystery',
+      'Art style should be realistic sci-fi with dramatic lighting'
+    ]);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isValid && !isLoading && !isEvaluating) {
@@ -73,17 +83,27 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) =
       </div>
 
       {/* Action Bar */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-gray-500 font-medium">
-          {filledCount}/5 details provided
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="text-sm text-gray-500 font-medium">
+            {filledCount}/5 details provided
+          </div>
+          <button
+            type="button"
+            onClick={fillExample}
+            disabled={isLoading}
+            className="px-4 py-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Use Example
+          </button>
         </div>
 
         <button
           type="submit"
           disabled={!isValid || isLoading}
           className={`px-8 py-3 rounded-lg font-bold text-white shadow-lg transition-all duration-200 flex items-center gap-2 ${isValid && !isLoading
-              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl transform hover:-translate-y-0.5'
-              : 'bg-gray-300 cursor-not-allowed'
+            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 hover:shadow-xl transform hover:-translate-y-0.5'
+            : 'bg-gray-300 cursor-not-allowed'
             }`}
         >
           {isLoading ? (

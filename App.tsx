@@ -73,6 +73,32 @@ const App: React.FC = () => {
               </>
             )}
             <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
+            {status === SearchState.IDLE && (
+              <div className="mt-6 flex justify-center">
+                <div className="w-full max-w-md rounded-xl border border-dashed border-gray-300 bg-white/80 p-4 text-left shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
+                    Layout sketch
+                  </p>
+                  <svg
+                    viewBox="0 0 360 210"
+                    role="img"
+                    aria-label="Sketch of the intended layout with header, search, and results panels"
+                    className="w-full h-auto"
+                  >
+                    <rect x="10" y="10" width="340" height="40" rx="6" fill="#F3F4F6" stroke="#CBD5F5" />
+                    <text x="180" y="35" textAnchor="middle" fontSize="12" fill="#4B5563">Header</text>
+
+                    <rect x="10" y="70" width="340" height="50" rx="10" fill="#EEF2FF" stroke="#A5B4FC" />
+                    <text x="180" y="100" textAnchor="middle" fontSize="12" fill="#4338CA">Search input</text>
+
+                    <rect x="10" y="140" width="165" height="55" rx="10" fill="#FFFFFF" stroke="#E5E7EB" />
+                    <rect x="185" y="140" width="165" height="55" rx="10" fill="#FFFFFF" stroke="#E5E7EB" />
+                    <text x="92" y="170" textAnchor="middle" fontSize="11" fill="#6B7280">Results</text>
+                    <text x="267" y="170" textAnchor="middle" fontSize="11" fill="#6B7280">Gallery</text>
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Content Rendering */}

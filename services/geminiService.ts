@@ -98,8 +98,24 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
       groundingMetadata: null, // No search grounding as requested
     };
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Gemini Generation Error:", error);
-    throw error;
+    console.error("Error details:", {
+      message: error?.message,
+      status: error?.status,
+      statusText: error?.statusText,
+      response: error?.response
+    });
+
+    // Provide more specific error messages
+    if (error?.message?.includes('quota')) {
+      throw new Error('API quota exceeded. Please try again later.');
+    } else if (error?.message?.includes('API key')) {
+      throw new Error('API key error. Please contact support.');
+    } else if (error?.message?.includes('Daily limit')) {
+      throw error; // Re-throw daily limit errors as-is
+    } else {
+      throw new Error(`Failed to generate covers: ${error?.message || 'Unknown error'}`);
+    }
   }
 };

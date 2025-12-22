@@ -1,8 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { SearchResult } from "../types";
 
-// Initialize the Gemini API client with the production API key
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyDjMPaB-3DnpRSIhBKJuZkvZEUwJ47ST5g' });
+// Initialize the Gemini API client with the production API key (restricted to cover-quest.com)
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyDDEwZm6gPQyvEcclg-ozDt-BE3qpJn7Q0' });
 
 const DAILY_LIMIT = 100;
 const STORAGE_KEY = 'coverquest_daily_usage';

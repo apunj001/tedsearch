@@ -4,6 +4,7 @@ import { ResultsView } from './components/ResultsView';
 import { LoadingAnimation } from './components/LoadingAnimation';
 import { searchBookCovers } from './services/geminiService';
 import { SearchResult, SearchState } from './types';
+import { useHeadingLabels } from './utils/headingLabels';
 
 const App: React.FC = () => {
   const [status, setStatus] = useState<SearchState>(SearchState.IDLE);
@@ -13,6 +14,7 @@ const App: React.FC = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
   const [flippedCover, setFlippedCover] = useState<number | null>(null);
+  const headingLabels = useHeadingLabels();
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
@@ -38,7 +40,10 @@ const App: React.FC = () => {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-2xl">📚</span>
-            <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">Cover<span className="text-accent">Quest</span></h1>
+            <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">
+              {headingLabels.appNamePrimary}
+              <span className="text-accent">{headingLabels.appNameAccent}</span>
+            </h1>
           </div>
           <nav className="hidden md:block">
             <button onClick={() => setShowAbout(true)} className="text-sm text-gray-500 hover:text-accent transition-colors">About</button>
@@ -54,10 +59,10 @@ const App: React.FC = () => {
           <div className="text-center mb-8 w-full max-w-2xl">
             {status === SearchState.IDLE && (
               <>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
+                <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">{headingLabels.heroTitle}</h2>
                 <button
                   onClick={() => setShowDemo(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors mb-4"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-indigo-700 transition-colors mb-4"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -68,6 +73,32 @@ const App: React.FC = () => {
               </>
             )}
             <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
+            {status === SearchState.IDLE && (
+              <div className="mt-6 flex justify-center">
+                <div className="w-full max-w-md rounded-xl border border-dashed border-gray-300 bg-white/80 p-4 text-left shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500 mb-3">
+                    Layout sketch
+                  </p>
+                  <svg
+                    viewBox="0 0 360 210"
+                    role="img"
+                    aria-label="Sketch of the intended layout with header, search, and results panels"
+                    className="w-full h-auto"
+                  >
+                    <rect x="10" y="10" width="340" height="40" rx="6" fill="#F3F4F6" stroke="#CBD5F5" />
+                    <text x="180" y="35" textAnchor="middle" fontSize="12" fill="#4B5563">Header</text>
+
+                    <rect x="10" y="70" width="340" height="50" rx="10" fill="#EEF2FF" stroke="#A5B4FC" />
+                    <text x="180" y="100" textAnchor="middle" fontSize="12" fill="#4338CA">Search input</text>
+
+                    <rect x="10" y="140" width="165" height="55" rx="10" fill="#FFFFFF" stroke="#E5E7EB" />
+                    <rect x="185" y="140" width="165" height="55" rx="10" fill="#FFFFFF" stroke="#E5E7EB" />
+                    <text x="92" y="170" textAnchor="middle" fontSize="11" fill="#6B7280">Results</text>
+                    <text x="267" y="170" textAnchor="middle" fontSize="11" fill="#6B7280">Gallery</text>
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Content Rendering */}
@@ -92,7 +123,7 @@ const App: React.FC = () => {
         <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-3">Explore Example Covers</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-3">{headingLabels.galleryTitle}</h2>
               <p className="text-gray-600">See what others have created with CoverQuest</p>
             </div>
 
@@ -271,7 +302,7 @@ const App: React.FC = () => {
           <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-2xl">₿</span>
-              <h3 className="text-lg font-semibold text-gray-800">Support CoverQuest</h3>
+              <h3 className="text-lg font-semibold text-gray-800">{headingLabels.supportTitle}</h3>
             </div>
             <p className="text-sm text-gray-600 mb-4">
               If you find this tool helpful, consider supporting development with Bitcoin
@@ -326,7 +357,7 @@ const App: React.FC = () => {
 
             <div className="text-center mb-6">
               <span className="text-4xl mb-3 block">📚</span>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">About CoverQuest</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">{headingLabels.aboutTitle}</h2>
             </div>
 
             <div className="space-y-4 text-gray-600 text-sm">
@@ -335,7 +366,7 @@ const App: React.FC = () => {
               </p>
 
               <div className="border-t border-gray-200 pt-4">
-                <h3 className="font-semibold text-gray-800 mb-2">Developed by</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">{headingLabels.developedByTitle}</h3>
                 <p className="font-medium text-gray-700">Sanshodhana LLC</p>
                 <p className="text-xs text-gray-500 italic">An AI and Search Consultancy</p>
               </div>
@@ -382,17 +413,17 @@ const App: React.FC = () => {
 
             <div className="text-center mb-6">
               <span className="text-4xl mb-3 block">📖</span>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">See How It Works</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">{headingLabels.demoTitle}</h2>
               <p className="text-sm text-gray-600">Transform your ideas into stunning book covers</p>
             </div>
 
             {/* Example Input */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 mb-6 border-2 border-amber-200">
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-xl p-5 mb-6 border-2 border-indigo-200">
               <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2 text-base">
                 <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
-                Example: Describe Your Book in 5 Sentences
+                {headingLabels.demoExampleTitle}
               </h3>
               <div className="space-y-2 text-gray-800 text-sm">
                 <div className="flex gap-2">
@@ -434,7 +465,7 @@ const App: React.FC = () => {
               <div className="space-y-4">
                 <h4 className="font-bold text-gray-800 text-center text-lg flex items-center justify-center gap-2">
                   <span className="text-2xl">📕</span>
-                  Front Cover
+                  {headingLabels.demoFrontCoverTitle}
                 </h4>
                 <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative">
                   {/* Simulated book cover design */}
@@ -460,7 +491,7 @@ const App: React.FC = () => {
               <div className="space-y-4">
                 <h4 className="font-bold text-gray-800 text-center text-lg flex items-center justify-center gap-2">
                   <span className="text-2xl">📘</span>
-                  Back Cover
+                  {headingLabels.demoBackCoverTitle}
                 </h4>
                 <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 relative">
                   {/* Simulated back cover design */}

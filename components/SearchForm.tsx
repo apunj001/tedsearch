@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHeadingLabels } from '../utils/headingLabels';
 
 interface SearchFormProps {
   onSearch: (query: string) => void;
@@ -8,6 +9,7 @@ interface SearchFormProps {
 export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) => {
   const [sentences, setSentences] = useState<string[]>(['', '', '', '', '']);
   const [isEvaluating, setIsEvaluating] = useState(false);
+  const headingLabels = useHeadingLabels();
 
   const handleSentenceChange = (index: number, value: string) => {
     const newSentences = [...sentences];
@@ -46,7 +48,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({ onSearch, isLoading }) =
             </svg>
           </div>
           <div className="flex-1">
-            <h3 className="text-base font-bold text-indigo-900 mb-1">AI Cover Generator</h3>
+            <h3 className="text-base font-bold text-indigo-900 mb-1">{headingLabels.searchFormTitle}</h3>
             <p className="text-sm text-indigo-800/80 leading-relaxed">
               Provide <strong>5 distinct details</strong> about your book. The AI will evaluate your description quality before generating custom front and back covers.
             </p>

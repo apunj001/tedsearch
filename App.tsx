@@ -4,6 +4,7 @@ import { ResultsView } from './components/ResultsView';
 import { LoadingAnimation } from './components/LoadingAnimation';
 import { searchBookCovers } from './services/geminiService';
 import { SearchResult, SearchState } from './types';
+import { useHeadingLabels } from './utils/headingLabels';
 
 const App: React.FC = () => {
   const [status, setStatus] = useState<SearchState>(SearchState.IDLE);
@@ -13,6 +14,7 @@ const App: React.FC = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
   const [flippedCover, setFlippedCover] = useState<number | null>(null);
+  const headingLabels = useHeadingLabels();
 
   const handleSearch = async (query: string) => {
     setStatus(SearchState.LOADING);
@@ -38,7 +40,10 @@ const App: React.FC = () => {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-2xl">📚</span>
-            <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">Cover<span className="text-accent">Quest</span></h1>
+            <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">
+              {headingLabels.appNamePrimary}
+              <span className="text-accent">{headingLabels.appNameAccent}</span>
+            </h1>
           </div>
           <nav className="hidden md:block">
             <button onClick={() => setShowAbout(true)} className="text-sm text-gray-500 hover:text-accent transition-colors">About</button>
@@ -47,31 +52,41 @@ const App: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex flex-col px-4 pb-12">
+      <main className="flex-grow flex flex-col px-4 pb-12 bg-gradient-to-b from-white via-gray-50/40 to-white">
 
         {/* Hero / Search Area */}
         <div className={`transition-all duration-500 ease-in-out flex flex-col items-center ${status === SearchState.IDLE ? 'justify-center min-h-[60vh]' : 'justify-start py-8'}`}>
-          <div className="text-center mb-8 w-full max-w-2xl">
-            {status === SearchState.IDLE && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
-                <button
-                  onClick={() => setShowDemo(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors mb-4"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  See Example
-                </button>
-              </>
-            )}
-            <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
+          <div className={`w-full max-w-6xl mx-auto ${status === SearchState.IDLE ? 'grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] items-center' : ''}`}>
+            <div className="text-center lg:text-left">
+              {status === SearchState.IDLE && (
+                <>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 mb-4">
+                    <span>AI-powered book cover studio</span>
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
+                  <p className="text-base md:text-lg text-gray-600 mb-6">
+                    Turn five concise details into a full front-and-back cover concept. Describe the mood, setting, and art style to guide the design.
+                  </p>
+                  <button
+                    onClick={() => setShowDemo(true)}
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    See Example
+                  </button>
+                </>
+              )}
+            </div>
+            <div className={`${status === SearchState.IDLE ? 'bg-white rounded-2xl border border-gray-100 shadow-xl p-6 md:p-8' : 'w-full max-w-3xl mx-auto'}`}>
+              <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
+            </div>
           </div>
 
           {/* Content Rendering */}
-          <div className="w-full">
+          <div className="w-full max-w-6xl mx-auto">
             {status === SearchState.LOADING && <LoadingAnimation />}
 
             {status === SearchState.ERROR && (
@@ -92,7 +107,7 @@ const App: React.FC = () => {
         <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-3">Explore Example Covers</h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-3">{headingLabels.galleryTitle}</h2>
               <p className="text-gray-600">See what others have created with CoverQuest</p>
             </div>
 
@@ -271,7 +286,7 @@ const App: React.FC = () => {
           <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
             <div className="flex items-center justify-center gap-2 mb-3">
               <span className="text-2xl">₿</span>
-              <h3 className="text-lg font-semibold text-gray-800">Support CoverQuest</h3>
+              <h3 className="text-lg font-semibold text-gray-800">{headingLabels.supportTitle}</h3>
             </div>
             <p className="text-sm text-gray-600 mb-4">
               If you find this tool helpful, consider supporting development with Bitcoin
@@ -326,7 +341,7 @@ const App: React.FC = () => {
 
             <div className="text-center mb-6">
               <span className="text-4xl mb-3 block">📚</span>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">About CoverQuest</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">{headingLabels.aboutTitle}</h2>
             </div>
 
             <div className="space-y-4 text-gray-600 text-sm">
@@ -335,7 +350,7 @@ const App: React.FC = () => {
               </p>
 
               <div className="border-t border-gray-200 pt-4">
-                <h3 className="font-semibold text-gray-800 mb-2">Developed by</h3>
+                <h3 className="font-semibold text-gray-800 mb-2">{headingLabels.developedByTitle}</h3>
                 <p className="font-medium text-gray-700">Sanshodhana LLC</p>
                 <p className="text-xs text-gray-500 italic">An AI and Search Consultancy</p>
               </div>
@@ -382,17 +397,17 @@ const App: React.FC = () => {
 
             <div className="text-center mb-6">
               <span className="text-4xl mb-3 block">📖</span>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">See How It Works</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">{headingLabels.demoTitle}</h2>
               <p className="text-sm text-gray-600">Transform your ideas into stunning book covers</p>
             </div>
 
             {/* Example Input */}
-            <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 mb-6 border-2 border-amber-200">
+            <div className="bg-gradient-to-br from-indigo-50 to-violet-50 rounded-xl p-5 mb-6 border-2 border-indigo-200">
               <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2 text-base">
                 <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
-                Example: Describe Your Book in 5 Sentences
+                {headingLabels.demoExampleTitle}
               </h3>
               <div className="space-y-2 text-gray-800 text-sm">
                 <div className="flex gap-2">
@@ -434,7 +449,7 @@ const App: React.FC = () => {
               <div className="space-y-4">
                 <h4 className="font-bold text-gray-800 text-center text-lg flex items-center justify-center gap-2">
                   <span className="text-2xl">📕</span>
-                  Front Cover
+                  {headingLabels.demoFrontCoverTitle}
                 </h4>
                 <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 relative">
                   {/* Simulated book cover design */}
@@ -460,7 +475,7 @@ const App: React.FC = () => {
               <div className="space-y-4">
                 <h4 className="font-bold text-gray-800 text-center text-lg flex items-center justify-center gap-2">
                   <span className="text-2xl">📘</span>
-                  Back Cover
+                  {headingLabels.demoBackCoverTitle}
                 </h4>
                 <div className="aspect-[2/3] rounded-xl shadow-2xl overflow-hidden border-4 border-gray-200 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 relative">
                   {/* Simulated back cover design */}

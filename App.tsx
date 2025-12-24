@@ -24,9 +24,10 @@ const App: React.FC = () => {
       const data = await searchBookCovers(query);
       setResult(data);
       setStatus(SearchState.SUCCESS);
-    } catch (error) {
-      console.error(error);
-      setErrorMsg("Failed to retrieve search results. Please try again.");
+    } catch (error: any) {
+      console.error("Search Error:", error);
+      // Show the actual error message from the Cloud Function or Network
+      setErrorMsg(error.message || "Failed to retrieve search results. Please try again.");
       setStatus(SearchState.ERROR);
     }
   };

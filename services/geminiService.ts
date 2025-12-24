@@ -1,4 +1,19 @@
+import { GoogleGenAI } from "@google/genai";
 import { SearchResult } from "../types";
+
+// Add type definition for Vite env
+interface ImportMetaEnv {
+  readonly VITE_GEMINI_API_KEY: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
+
+// Initialize the Gemini API client
+// Use the key from .env.local (VITE_GEMINI_API_KEY) or fallback to empty string to prevent crash
+const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || '';
+const ai = new GoogleGenAI({ apiKey });
 
 const DAILY_LIMIT = 100;
 const STORAGE_KEY = 'coverquest_daily_usage';
@@ -30,42 +45,66 @@ const checkAndIncrementLimit = (): boolean => {
 
 export const searchBookCovers = async (query: string): Promise<SearchResult> => {
   try {
+    if (!apiKey) {
+      throw new Error("API Key not found. Please check .env.local");
+    }
+
     // Check daily limit
     if (!checkAndIncrementLimit()) {
       throw new Error(`Daily limit of ${DAILY_LIMIT} requests reached. Please try again tomorrow.`);
     }
 
-    // Call the Cloud Function
-    const response = await fetch('https://us-central1-ted-search-478518.cloudfunctions.net/geminiGenerate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ query }),
+    const modelId = 'gemini-2.0-flash-exp';
+
+    // Generate Optimized Prompts for Front and Back Covers
+    const promptGenPrompt = `
+      Based on this description: "${query}"
+
+      Create two highly detailed, artistic image generation prompts:
+      1. **Front Cover**: Focus on the main title, central imagery, and mood.
+      2. **Back Cover**: Focus on a complementary scene, blurb placeholder, and consistent style.
+
+      Return a JSON object:
+      {
+        "frontPrompt": "string",
+        "backPrompt": "string",
+        "artStyle": "string description of the style",
+        "artistReference": "string name of an artist style to emulate"
+      }
+    `;
+
+    const promptResponse = await ai.models.generateContent({
+      model: modelId,
+      contents: promptGenPrompt,
+      config: { responseMimeType: 'application/json' }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || `Server error: ${response.status}`);
-    }
+    const prompts = JSON.parse(promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
 
-    const data = await response.json();
+    // Build image URLs
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, high quality, 8k, text title")}`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, matching style, high quality")}`;
+
+    // Use proxy to avoid CORS issues
+    const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';
+    const frontUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsFrontUrl)}`;
+    const backUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsBackUrl)}`;
 
     // Construct the Markdown Response
     const markdown = `
 ## Front Cover
-![Front Cover](${data.frontUrl})
+![Front Cover](${frontUrl})
 
 ## Back Cover
-![Back Cover](${data.backUrl})
+![Back Cover](${backUrl})
 
 ## Art Description
-**Style:** ${data.artStyle}
-**Artist Style:** ${data.artistReference}
+**Style:** ${prompts.artStyle}
+**Artist Style:** ${prompts.artistReference}
 
-**Front Prompt:** ${data.frontPrompt}
+**Front Prompt:** ${prompts.frontPrompt}
 
-**Back Prompt:** ${data.backPrompt}
+**Back Prompt:** ${prompts.backPrompt}
     `;
 
     return {

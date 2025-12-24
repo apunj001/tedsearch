@@ -1,8 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
 import { SearchResult } from "../types";
-
-// Initialize the Gemini API client with the production API key (restricted to cover-quest.com)
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyDDEwZm6gPQyvEcclg-ozDt-BE3qpJn7Q0' });
 
 const DAILY_LIMIT = 100;
 const STORAGE_KEY = 'coverquest_daily_usage';
@@ -39,83 +35,46 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
       throw new Error(`Daily limit of ${DAILY_LIMIT} requests reached. Please try again tomorrow.`);
     }
 
-    const modelId = 'gemini-2.5-flash';
-
-    // Generate Optimized Prompts for Front and Back Covers
-    const promptGenPrompt = `
-      Based on this description: "${query}"
-
-      Create two highly detailed, artistic image generation prompts:
-      1. **Front Cover**: Focus on the main title, central imagery, and mood.
-      2. **Back Cover**: Focus on a complementary scene, blurb placeholder, and consistent style.
-
-      Return a JSON object:
-      {
-        "frontPrompt": "string",
-        "backPrompt": "string",
-        "artStyle": "string description of the style",
-        "artistReference": "string name of an artist style to emulate"
-      }
-    `;
-
-    const promptResponse = await ai.models.generateContent({
-      model: modelId,
-      contents: promptGenPrompt,
-      config: { responseMimeType: 'application/json' }
+    // Call the Cloud Function
+    const response = await fetch('https://us-central1-ted-search-478518.cloudfunctions.net/geminiGenerate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ query }),
     });
 
-    const prompts = JSON.parse(promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `Server error: ${response.status}`);
+    }
 
-    // 3. "Generate" Images (Using Pollinations as a renderer for the Gemini-generated prompts)
-    // This fulfills "generated through llm" by using the LLM's prompt to drive the generation.
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, high quality, 8k, text title")}`;
-    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, matching style, high quality")}`;
+    const data = await response.json();
 
-    // Use proxy to avoid CORS issues
-    const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';
-    const frontUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsFrontUrl)}`;
-    const backUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsBackUrl)}`;
-
-    // 4. Construct the Markdown Response
+    // Construct the Markdown Response
     const markdown = `
 ## Front Cover
-![Front Cover](${frontUrl})
+![Front Cover](${data.frontUrl})
 
 ## Back Cover
-![Back Cover](${backUrl})
+![Back Cover](${data.backUrl})
 
 ## Art Description
-**Style:** ${prompts.artStyle}
-**Artist Style:** ${prompts.artistReference}
+**Style:** ${data.artStyle}
+**Artist Style:** ${data.artistReference}
 
-**Front Prompt:** ${prompts.frontPrompt}
+**Front Prompt:** ${data.frontPrompt}
 
-**Back Prompt:** ${prompts.backPrompt}
+**Back Prompt:** ${data.backPrompt}
     `;
 
     return {
       text: markdown,
-      groundingMetadata: null, // No search grounding as requested
+      groundingMetadata: null,
     };
 
   } catch (error: any) {
     console.error("Gemini Generation Error:", error);
-    console.error("Error details:", {
-      message: error?.message,
-      status: error?.status,
-      statusText: error?.statusText,
-      response: error?.response
-    });
-
-    // Provide more specific error messages
-    if (error?.message?.includes('quota')) {
-      throw new Error('API quota exceeded. Please try again later.');
-    } else if (error?.message?.includes('API key')) {
-      throw new Error('API key error. Please contact support.');
-    } else if (error?.message?.includes('Daily limit')) {
-      throw error; // Re-throw daily limit errors as-is
-    } else {
-      throw new Error(`Failed to generate covers: ${error?.message || 'Unknown error'}`);
-    }
+    throw error;
   }
 };

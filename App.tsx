@@ -4,8 +4,10 @@ import { ResultsView } from './components/ResultsView';
 import { LoadingAnimation } from './components/LoadingAnimation';
 import { searchBookCovers } from './services/geminiService';
 import { SearchResult, SearchState } from './types';
+import { GalleryView } from './components/GalleryView';
 
 const App: React.FC = () => {
+  const [view, setView] = useState<'HOME' | 'GALLERY'>('HOME');
   const [status, setStatus] = useState<SearchState>(SearchState.IDLE);
   const [result, setResult] = useState<SearchResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -26,7 +28,6 @@ const App: React.FC = () => {
       setStatus(SearchState.SUCCESS);
     } catch (error: any) {
       console.error("Search Error:", error);
-      // Show the actual error message from the Cloud Function or Network
       setErrorMsg(error.message || "Failed to retrieve search results. Please try again.");
       setStatus(SearchState.ERROR);
     }
@@ -35,221 +36,233 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="w-full py-6 px-4 border-b border-gray-200 bg-paper">
+      <header className="w-full py-6 px-4 border-b border-gray-200 bg-paper sticky top-0 z-50">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => setView('HOME')}
+          >
             <span className="text-2xl">📚</span>
             <h1 className="text-2xl font-serif font-bold text-ink tracking-tight">Cover<span className="text-accent">Quest</span></h1>
           </div>
-          <nav className="hidden md:block">
+          <nav className="hidden md:flex items-center gap-6">
+            <button
+              onClick={() => setView('HOME')}
+              className={`text-sm font-medium transition-colors ${view === 'HOME' ? 'text-accent' : 'text-gray-500 hover:text-accent'}`}
+            >
+              Generator
+            </button>
+            <button
+              onClick={() => setView('GALLERY')}
+              className={`text-sm font-medium transition-colors ${view === 'GALLERY' ? 'text-accent' : 'text-gray-500 hover:text-accent'}`}
+            >
+              Gallery
+            </button>
             <button onClick={() => setShowAbout(true)} className="text-sm text-gray-500 hover:text-accent transition-colors">About</button>
           </nav>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col px-4 pb-12">
+      {view === 'GALLERY' ? (
+        <GalleryView />
+      ) : (
+        <>
+          {/* Main Content */}
+          <main className="flex-grow flex flex-col px-4 pb-12">
+            <div className="max-w-6xl mx-auto w-full flex flex-col items-center gap-8">
 
-        {/* Hero / Search Area */}
-        <div className={`transition-all duration-500 ease-in-out flex flex-col items-center ${status === SearchState.IDLE ? 'justify-center min-h-[60vh]' : 'justify-start py-8'}`}>
-          <div className="text-center mb-8 w-full max-w-2xl">
-            {status === SearchState.IDLE && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-serif font-bold text-ink mb-4">Discover Book Covers</h2>
-                <button
-                  onClick={() => setShowDemo(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-accent hover:text-amber-700 transition-colors mb-4"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                  See Example
-                </button>
-              </>
-            )}
-            <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
-          </div>
-
-          {/* Content Rendering */}
-          <div className="w-full">
-            {status === SearchState.LOADING && <LoadingAnimation />}
-
-            {status === SearchState.ERROR && (
-              <div className="max-w-2xl mx-auto mt-8 p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg text-center">
-                {errorMsg}
-              </div>
-            )}
-
-            {status === SearchState.SUCCESS && result && (
-              <ResultsView result={result} query={currentQuery} />
-            )}
-          </div>
-        </div>
-      </main>
-
-      {/* Gallery Section - Only show when IDLE */}
-      {status === SearchState.IDLE && (
-        <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-3">Explore Example Covers</h2>
-              <p className="text-gray-600">See what others have created with CoverQuest</p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {/* Example Cover 1 - Sci-Fi */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 1 ? null : 1)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 1 ? 'rotate-y-180' : ''}`}>
-                  {/* Front */}
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-purple-900 via-blue-900 to-black">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">🚀</div>
-                      <div className="text-xl font-bold text-center">NEBULA</div>
-                      <div className="text-xs mt-2 opacity-75">Sci-Fi • Click to see example</div>
+              {/* Hero / Search Area */}
+              <div className={`transition-all duration-500 ease-in-out flex flex-col items-center ${status === SearchState.IDLE ? 'justify-center min-h-[60vh]' : 'justify-start py-8'}`}>
+                {status === SearchState.IDLE && (
+                  <>
+                    <div className="mb-8 relative group">
+                      <div className="absolute -inset-1 bg-gradient-to-r from-accent to-orange-400 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                      <div className="relative px-6 py-3 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+                        <span className="text-accent font-bold tracking-wider uppercase text-sm">AI-Powered</span>
+                      </div>
                     </div>
-                  </div>
-                  {/* Back */}
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Ffuturistic%2520space%2520station%2520orbiting%2520nebula%252C%2520sci-fi%2520book%2520cover%252C%2520vibrant%2520purple%2520and%2520blue%2520colors%252C%2520high%2520quality"
-                      alt="Sci-Fi Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+                    <h2 className="text-5xl md:text-7xl font-serif font-bold text-center text-ink mb-6 tracking-tight leading-tight">
+                      Design Your <br />
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-orange-500">Masterpiece</span>
+                    </h2>
+                    <p className="text-xl text-gray-600 text-center max-w-2xl mb-12 leading-relaxed font-light">
+                      Transform your story ideas into professional book covers in seconds.
+                      <br />No design skills required.
+                    </p>
+                    <button
+                      onClick={() => setShowDemo(true)}
+                      className="mb-12 px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-medium text-gray-600 hover:border-accent hover:text-accent transition-all shadow-sm hover:shadow-md"
+                    >
+                      See Example Result
+                    </button>
+                  </>
+                )}
+                <SearchForm onSearch={handleSearch} isLoading={status === SearchState.LOADING} />
               </div>
 
-              {/* Example Cover 2 - Romance */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 2 ? null : 2)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 2 ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-pink-400 via-rose-500 to-red-600">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">💕</div>
-                      <div className="text-xl font-bold text-center">HEARTS</div>
-                      <div className="text-xs mt-2 opacity-75">Romance • Click to see example</div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fromantic%2520couple%2520silhouette%2520sunset%252C%2520romance%2520book%2520cover%252C%2520warm%2520pink%2520and%2520red%2520tones%252C%2520dreamy%2520atmosphere"
-                      alt="Romance Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
+              {/* Content Rendering */}
+              <div className="w-full">
+                {status === SearchState.LOADING && <LoadingAnimation />}
 
-              {/* Example Cover 3 - Mystery */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 3 ? null : 3)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 3 ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-gray-800 via-slate-700 to-gray-900">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">🔍</div>
-                      <div className="text-xl font-bold text-center">SHADOWS</div>
-                      <div className="text-xs mt-2 opacity-75">Mystery • Click to see example</div>
-                    </div>
+                {status === SearchState.ERROR && (
+                  <div className="max-w-2xl mx-auto mt-8 p-4 bg-red-50 text-red-700 border border-red-200 rounded-lg text-center">
+                    {errorMsg}
                   </div>
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fdark%2520alley%2520noir%2520detective%252C%2520mystery%2520thriller%2520book%2520cover%252C%2520moody%2520shadows%252C%2520film%2520noir%2520style"
-                      alt="Mystery Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
+                )}
 
-              {/* Example Cover 4 - Fantasy */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 4 ? null : 4)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 4 ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-700 to-cyan-800">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">🐉</div>
-                      <div className="text-xl font-bold text-center">REALMS</div>
-                      <div className="text-xs mt-2 opacity-75">Fantasy • Click to see example</div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fepic%2520dragon%2520flying%2520over%2520castle%252C%2520fantasy%2520book%2520cover%252C%2520magical%2520emerald%2520and%2520teal%2520colors%252C%2520detailed"
-                      alt="Fantasy Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Example Cover 5 - Thriller */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 5 ? null : 5)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 5 ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-red-900 via-orange-800 to-yellow-700">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">⚡</div>
-                      <div className="text-xl font-bold text-center">PULSE</div>
-                      <div className="text-xs mt-2 opacity-75">Thriller • Click to see example</div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fintense%2520action%2520scene%2520explosion%252C%2520thriller%2520book%2520cover%252C%2520dramatic%2520red%2520and%2520orange%2520lighting%252C%2520high%2520energy"
-                      alt="Thriller Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Example Cover 6 - Horror */}
-              <div
-                className="group cursor-pointer perspective-1000"
-                onClick={() => setFlippedCover(flippedCover === 6 ? null : 6)}
-              >
-                <div className={`relative w-full aspect-[2/3] transition-transform duration-700 transform-style-3d ${flippedCover === 6 ? 'rotate-y-180' : ''}`}>
-                  <div className="absolute inset-0 backface-hidden rounded-lg shadow-lg overflow-hidden bg-gradient-to-br from-black via-red-950 to-gray-900">
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-white">
-                      <div className="text-4xl mb-3">👻</div>
-                      <div className="text-xl font-bold text-center">HAUNTED</div>
-                      <div className="text-xs mt-2 opacity-75">Horror • Click to see example</div>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-lg shadow-lg overflow-hidden">
-                    <img
-                      src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2Fcreepy%2520haunted%2520mansion%2520at%2520night%252C%2520horror%2520book%2520cover%252C%2520dark%2520atmosphere%252C%2520eerie%2520red%2520glow"
-                      alt="Horror Example"
-                      crossOrigin="anonymous"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
+                {status === SearchState.SUCCESS && result && (
+                  <ResultsView result={result} query={currentQuery} />
+                )}
               </div>
             </div>
+          </main>
 
-            <div className="text-center mt-10">
-              <p className="text-sm text-gray-500 italic">✨ All covers generated by AI based on simple descriptions</p>
-            </div>
-          </div>
-        </section>
+          {/* Gallery Section - Only show when IDLE */}
+          {status === SearchState.IDLE && (
+            <section className="py-16 px-4 bg-gradient-to-b from-white to-gray-50">
+              <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold text-gray-800 mb-3">Explore Example Covers</h2>
+                  <p className="text-gray-600">See what others have created with CoverQuest</p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                  {/* Example Cover 1 - Sci-Fi */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 1 ? null : 1)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 1 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520futuristic%2520city%2520skyline%2520at%2520sunset%2520with%2520flying%2520cars%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="Sci-Fi Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520futuristic%2520city%2520street%2520level%2520view%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="Sci-Fi Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Example Cover 2 - Fantasy */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 2 ? null : 2)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 2 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520mystical%2520forest%2520with%2520glowing%2520mushrooms%2520and%2520a%2520hidden%2520path%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="Fantasy Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520magical%2520clearing%2520in%2520the%2520forest%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="Fantasy Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Example Cover 3 - Mystery */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 3 ? null : 3)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 3 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520foggy%2520london%2520street%2520at%2520night%2520with%2520a%2520silhouette%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="Mystery Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520dark%2520alleyway%2520with%2520a%2520single%2520streetlamp%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="Mystery Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Example Cover 4 - Romance */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 4 ? null : 4)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 4 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520couple%2520walking%2520on%2520a%2520beach%2520at%2520sunset%2520painting%2520style%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="Romance Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520peaceful%2520ocean%2520view%2520with%2520seagulls%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="Romance Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Example Cover 5 - Horror */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 5 ? null : 5)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 5 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520haunted%2520house%2520on%2520a%2520hill%2520with%2520lightning%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="Horror Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520creepy%2520old%2520tree%2520with%2520ravens%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="Horror Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Example Cover 6 - History */}
+                  <div className="group perspective-1000 h-[400px] cursor-pointer" onClick={() => setFlippedCover(flippedCover === 6 ? null : 6)}>
+                    <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedCover === 6 ? 'rotate-y-180' : ''}`}>
+                      <div className="absolute inset-0 backface-hidden">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520roman%2520colosseum%2520in%2520ancient%2520times%2520book%2520cover%2520design%252C%2520high%2520quality%252C%25208k%252C%2520text%2520title"
+                          alt="History Cover Front"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                      <div className="absolute inset-0 backface-hidden rotate-y-180">
+                        <img
+                          src="https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy?url=https%3A%2F%2Fimage.pollinations.ai%2Fprompt%2FA%2520roman%2520soldier%2520helmet%2520and%2520shield%2520book%2520back%2520cover%252C%2520matching%2520style%252C%2520high%2520quality"
+                          alt="History Cover Back"
+                          className="w-full h-full object-cover rounded-lg shadow-xl"
+                          crossOrigin="anonymous"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {/* Floating Feedback Button */}

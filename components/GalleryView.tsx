@@ -22,18 +22,18 @@ export const GalleryView: React.FC = () => {
                     {galleryItems.map((item) => (
                         <div
                             key={item.id}
-                            className="relative group perspective-1000 h-[500px] cursor-pointer"
+                            className="relative group perspective-1000 h-[600px] cursor-pointer"
                             onClick={() => handleCardClick(item.id)}
                         >
                             <div className={`relative w-full h-full transition-all duration-700 transform-style-3d ${flippedId === item.id ? 'rotate-y-180' : ''}`}>
 
                                 {/* Front Face */}
                                 <div className="absolute inset-0 backface-hidden">
-                                    <div className="h-full w-full rounded-lg shadow-xl overflow-hidden bg-white border border-gray-200">
+                                    <div className="h-full w-full rounded-lg shadow-xl overflow-hidden bg-gray-900 border border-gray-200 flex items-center justify-center">
                                         <img
                                             src={item.frontImage}
                                             alt={`Front cover for ${item.title}`}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-contain"
                                             loading="lazy"
                                         />
                                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -44,11 +44,11 @@ export const GalleryView: React.FC = () => {
 
                                 {/* Back Face */}
                                 <div className="absolute inset-0 backface-hidden rotate-y-180">
-                                    <div className="h-full w-full rounded-lg shadow-xl overflow-hidden bg-white border border-gray-200">
+                                    <div className="h-full w-full rounded-lg shadow-xl overflow-hidden bg-gray-900 border border-gray-200 flex items-center justify-center">
                                         <img
                                             src={item.backImage}
                                             alt={`Back cover for ${item.title}`}
-                                            className="w-full h-full object-cover"
+                                            className="w-full h-full object-contain"
                                             loading="lazy"
                                         />
                                     </div>
@@ -56,9 +56,9 @@ export const GalleryView: React.FC = () => {
 
                             </div>
 
-                            <div className="mt-4 text-center">
-                                <h3 className="text-lg font-medium text-gray-900">{item.title}</h3>
-                                <p className="text-sm text-gray-500">{item.genre}</p>
+                            <div className="mt-3 text-center">
+                                <h3 className="text-sm font-semibold text-gray-900">{item.title}</h3>
+                                <p className="text-xs text-gray-500">{item.genre}</p>
                             </div>
                         </div>
                     ))}

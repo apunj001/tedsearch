@@ -93,14 +93,17 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
         prompts = JSON.parse(jsonString);
       } catch (e) {
         console.error("Failed to parse extracted JSON:", e);
+        console.log("Extracted String was:", jsonString);
       }
     }
 
     if (!prompts) {
       console.warn("Using fallback prompts due to parsing failure");
+      // Simplify fallback to avoid 500 errors. Use only first 100 chars of query and remove special chars.
+      const shortQuery = query.substring(0, 100).replace(/[^\w\s]/gi, '');
       prompts = {
-        frontPrompt: `A highly detailed book cover art for "${query}". Cinematic lighting, 8k resolution, masterpiece.`,
-        backPrompt: `A complementary back cover design for "${query}". Texture, atmospheric background, matching style.`,
+        frontPrompt: `Book cover art for ${shortQuery}, cinematic lighting, 8k resolution`,
+        backPrompt: `Back cover design for ${shortQuery}, texture, atmospheric background`,
         artStyle: "Digital Art",
         artistReference: "Midjourney Style"
       };

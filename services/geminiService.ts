@@ -61,8 +61,8 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
       Based on this description: "${query}"
 
       Create two highly detailed, artistic image generation prompts:
-      1. **Front Cover**: Focus on the main title, central imagery, and mood.
-      2. **Back Cover**: Focus on a complementary scene, blurb placeholder, and consistent style.
+      1. **Front Cover**: Focus on the central visual imagery, the scene, the characters, and the mood. Describe the artwork in detail. Do not focus on the text or title placement.
+      2. **Back Cover**: Focus on a complementary background scene or texture that matches the front cover's style.
 
       Return a JSON object:
       {
@@ -82,20 +82,27 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const rawText = promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     console.log("Raw Gemini Response:", rawText);
 
-    // Clean up markdown code blocks if present
-    const cleanText = rawText.replace(/```json\n?|\n?```/g, '').trim();
+    // Robust JSON extraction: Find the first '{' and the last '}'
+    const jsonStart = rawText.indexOf('{');
+    const jsonEnd = rawText.lastIndexOf('}');
 
     let prompts;
-    try {
-      prompts = JSON.parse(cleanText);
-    } catch (e) {
-      console.error("Failed to parse JSON:", e);
-      // Fallback to basic object if parsing fails
+    if (jsonStart !== -1 && jsonEnd !== -1) {
+      const jsonString = rawText.substring(jsonStart, jsonEnd + 1);
+      try {
+        prompts = JSON.parse(jsonString);
+      } catch (e) {
+        console.error("Failed to parse extracted JSON:", e);
+      }
+    }
+
+    if (!prompts) {
+      console.warn("Using fallback prompts due to parsing failure");
       prompts = {
-        frontPrompt: query + " book cover",
-        backPrompt: query + " back cover",
+        frontPrompt: `A highly detailed book cover art for "${query}". Cinematic lighting, 8k resolution, masterpiece.`,
+        backPrompt: `A complementary back cover design for "${query}". Texture, atmospheric background, matching style.`,
         artStyle: "Digital Art",
-        artistReference: "Generic"
+        artistReference: "Midjourney Style"
       };
     }
 
@@ -103,7 +110,7 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const seed1 = Math.floor(Math.random() * 1000000);
     const seed2 = Math.floor(Math.random() * 1000000);
 
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, front view, title text, high quality, 8k")}?seed=${seed1}&width=1024&height=1536&nologo=true`;
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover art, masterpiece, highly detailed, 8k, cinematic lighting")}?seed=${seed1}&width=1024&height=1536&nologo=true`;
     const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality")}?seed=${seed2}&width=1024&height=1536&nologo=true`;
 
     // Use proxy to avoid CORS issues

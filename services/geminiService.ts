@@ -82,28 +82,26 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const rawText = promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     console.log("Raw Gemini Response:", rawText);
 
-    // Robust JSON extraction: Find the first '{' and the last '}'
-    const jsonStart = rawText.indexOf('{');
-    const jsonEnd = rawText.lastIndexOf('}');
+    // Robust JSON extraction using regex to capture everything between first { and last }
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/);
 
     let prompts;
-    if (jsonStart !== -1 && jsonEnd !== -1) {
-      const jsonString = rawText.substring(jsonStart, jsonEnd + 1);
+    if (jsonMatch) {
       try {
-        prompts = JSON.parse(jsonString);
+        prompts = JSON.parse(jsonMatch[0]);
       } catch (e) {
         console.error("Failed to parse extracted JSON:", e);
-        console.log("Extracted String was:", jsonString);
+        console.log("Extracted String was:", jsonMatch[0]);
       }
     }
 
     if (!prompts) {
       console.warn("Using fallback prompts due to parsing failure");
-      // Simplify fallback to avoid 500 errors. Use only first 100 chars of query and remove special chars.
-      const shortQuery = query.substring(0, 100).replace(/[^\w\s]/gi, '');
+      // Simplify fallback. Use only first 80 chars of query, clean it.
+      const shortQuery = query.substring(0, 80).replace(/[^\w\s]/gi, '');
       prompts = {
-        frontPrompt: `Book cover art for ${shortQuery}, cinematic lighting, 8k resolution`,
-        backPrompt: `Back cover design for ${shortQuery}, texture, atmospheric background`,
+        frontPrompt: `Book cover for ${shortQuery}`,
+        backPrompt: `Back cover for ${shortQuery}`,
         artStyle: "Digital Art",
         artistReference: "Midjourney Style"
       };
@@ -113,12 +111,14 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const seed1 = Math.floor(Math.random() * 1000000);
     const seed2 = Math.floor(Math.random() * 1000000);
 
-    // Truncate prompts to avoid 500 errors from too long URLs
-    const safeFrontPrompt = (prompts.frontPrompt + " book cover art, masterpiece, highly detailed, 8k, cinematic lighting").substring(0, 800);
-    const safeBackPrompt = (prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality").substring(0, 800);
+    // Clean and safe prompts. Don't add too many keywords if they are already in the prompt.
+    // We use a simpler suffix to avoid 500 errors.
+    const safeFrontPrompt = (prompts.frontPrompt + ", masterpiece, 8k, cinematic lighting").substring(0, 500);
+    const safeBackPrompt = (prompts.backPrompt + ", back view, matching style").substring(0, 500);
 
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeFrontPrompt)}?seed=${seed1}&width=1024&height=1536&nologo=true`;
-    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeBackPrompt)}?seed=${seed2}&width=1024&height=1536&nologo=true`;
+    // Reduced resolution to 768x1024 for better stability
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeFrontPrompt)}?seed=${seed1}&width=768&height=1024&nologo=true`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeBackPrompt)}?seed=${seed2}&width=768&height=1024&nologo=true`;
 
     // Use direct Pollinations URLs to avoid proxy issues
     // const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';

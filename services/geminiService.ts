@@ -117,8 +117,9 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const safeBackPrompt = (prompts.backPrompt + ", back view, matching style").substring(0, 500);
 
     // Reduced resolution to 768x1024 for better stability
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeFrontPrompt)}?seed=${seed1}&width=768&height=1024&nologo=true`;
-    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeBackPrompt)}?seed=${seed2}&width=768&height=1024&nologo=true`;
+    // Added model=turbo to avoid "No active flux servers available" error
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeFrontPrompt)}?seed=${seed1}&width=768&height=1024&nologo=true&model=turbo`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeBackPrompt)}?seed=${seed2}&width=768&height=1024&nologo=true&model=turbo`;
 
     // Use direct Pollinations URLs to avoid proxy issues
     // const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';

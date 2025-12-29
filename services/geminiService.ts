@@ -79,7 +79,25 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
       config: { responseMimeType: 'application/json' }
     });
 
-    const prompts = JSON.parse(promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
+    const rawText = promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    console.log("Raw Gemini Response:", rawText);
+
+    // Clean up markdown code blocks if present
+    const cleanText = rawText.replace(/```json\n?|\n?```/g, '').trim();
+
+    let prompts;
+    try {
+      prompts = JSON.parse(cleanText);
+    } catch (e) {
+      console.error("Failed to parse JSON:", e);
+      // Fallback to basic object if parsing fails
+      prompts = {
+        frontPrompt: query + " book cover",
+        backPrompt: query + " back cover",
+        artStyle: "Digital Art",
+        artistReference: "Generic"
+      };
+    }
 
     // Build image URLs with random seeds to ensure uniqueness
     const seed1 = Math.floor(Math.random() * 1000000);

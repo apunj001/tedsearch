@@ -113,10 +113,10 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover art, masterpiece, highly detailed, 8k, cinematic lighting")}?seed=${seed1}&width=1024&height=1536&nologo=true`;
     const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality")}?seed=${seed2}&width=1024&height=1536&nologo=true`;
 
-    // Use proxy to avoid CORS issues
-    const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';
-    const frontUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsFrontUrl)}`;
-    const backUrl = `${proxyBaseUrl}?url=${encodeURIComponent(pollinationsBackUrl)}`;
+    // Use direct Pollinations URLs to avoid proxy issues
+    // const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';
+    const frontUrl = pollinationsFrontUrl; // Direct URL
+    const backUrl = pollinationsBackUrl;   // Direct URL
 
     // Construct the Markdown Response
     const markdown = `

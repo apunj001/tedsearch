@@ -81,9 +81,12 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
 
     const prompts = JSON.parse(promptResponse.candidates?.[0]?.content?.parts?.[0]?.text || '{}');
 
-    // Build image URLs
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, high quality, 8k, text title")}`;
-    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, matching style, high quality")}`;
+    // Build image URLs with random seeds to ensure uniqueness
+    const seed1 = Math.floor(Math.random() * 1000000);
+    const seed2 = Math.floor(Math.random() * 1000000);
+
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover design, front view, title text, high quality, 8k")}?seed=${seed1}&width=1024&height=1536&nologo=true`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality")}?seed=${seed2}&width=1024&height=1536&nologo=true`;
 
     // Use proxy to avoid CORS issues
     const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';

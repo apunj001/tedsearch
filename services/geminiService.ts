@@ -110,8 +110,12 @@ export const searchBookCovers = async (query: string): Promise<SearchResult> => 
     const seed1 = Math.floor(Math.random() * 1000000);
     const seed2 = Math.floor(Math.random() * 1000000);
 
-    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.frontPrompt + " book cover art, masterpiece, highly detailed, 8k, cinematic lighting")}?seed=${seed1}&width=1024&height=1536&nologo=true`;
-    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality")}?seed=${seed2}&width=1024&height=1536&nologo=true`;
+    // Truncate prompts to avoid 500 errors from too long URLs
+    const safeFrontPrompt = (prompts.frontPrompt + " book cover art, masterpiece, highly detailed, 8k, cinematic lighting").substring(0, 800);
+    const safeBackPrompt = (prompts.backPrompt + " book back cover, back view, blurb text layout, matching style, high quality").substring(0, 800);
+
+    const pollinationsFrontUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeFrontPrompt)}?seed=${seed1}&width=1024&height=1536&nologo=true`;
+    const pollinationsBackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(safeBackPrompt)}?seed=${seed2}&width=1024&height=1536&nologo=true`;
 
     // Use direct Pollinations URLs to avoid proxy issues
     // const proxyBaseUrl = 'https://us-central1-ted-search-478518.cloudfunctions.net/imageProxy';

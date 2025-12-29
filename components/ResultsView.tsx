@@ -241,8 +241,10 @@ export const ResultsView: React.FC<ResultsViewProps> = ({ result, query }) => {
                   src={data.imageUrl}
                   alt={`${type} cover artwork`}
                   crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
                   className="relative z-10 w-full h-full object-cover"
                   onError={(e) => {
+                    console.error("Image load failed:", data.imageUrl);
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling?.classList.remove('hidden');
                   }}

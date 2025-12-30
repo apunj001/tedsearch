@@ -5,7 +5,6 @@ import { LoadingAnimation } from './components/LoadingAnimation';
 import { searchBookCovers } from './services/geminiService';
 import { SearchResult, SearchState } from './types';
 import { GalleryView } from './components/GalleryView';
-import { CustomRequestModal } from './components/CustomRequestModal';
 
 const App: React.FC = () => {
   const [view, setView] = useState<'HOME' | 'GALLERY'>('HOME');
@@ -15,7 +14,6 @@ const App: React.FC = () => {
   const [currentQuery, setCurrentQuery] = useState<string>("");
   const [showAbout, setShowAbout] = useState(false);
   const [showDemo, setShowDemo] = useState(false);
-  const [showCustomRequest, setShowCustomRequest] = useState(false);
   const [flippedCover, setFlippedCover] = useState<number | null>(null);
 
   const handleSearch = async (query: string) => {
@@ -59,12 +57,6 @@ const App: React.FC = () => {
               className={`text-sm font-medium transition-colors ${view === 'GALLERY' ? 'text-accent' : 'text-gray-500 hover:text-accent'}`}
             >
               Gallery
-            </button>
-            <button
-              onClick={() => setShowCustomRequest(true)}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1"
-            >
-              <span>✨</span> Hire Pro
             </button>
             <button onClick={() => setShowAbout(true)} className="text-sm text-gray-500 hover:text-accent transition-colors">About</button>
           </nav>
@@ -515,11 +507,6 @@ const App: React.FC = () => {
           </div>
         </div>
       )}
-      {/* Custom Request Modal */}
-      <CustomRequestModal
-        isOpen={showCustomRequest}
-        onClose={() => setShowCustomRequest(false)}
-      />
     </div>
   );
 };
